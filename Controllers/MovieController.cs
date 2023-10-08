@@ -16,12 +16,14 @@ namespace MovieList.Controllers
         public IActionResult Add() 
         {
             ViewBag.Action = "Add"; //Get the asp-action="Add" from Home/Index.cshtml
+            ViewBag.Genres = context.Genres.OrderBy(g => g.Name).ToList();
             return View("Edit", new Movie()); //passes an empty Movies object
         }
         [HttpGet]
         public IActionResult Edit(int id) 
         {
             ViewBag.Action = "Edit"; //Get the asp-action="Edit" from Home/Index.cshtml
+            ViewBag.Genres = context.Genres.OrderBy(g => g.Name).ToList();
             var movie = context.Movies.Find(id);
             return View(movie); 
         }
@@ -45,6 +47,7 @@ namespace MovieList.Controllers
             else //If data is not valid, resets the action property of the ViewBag to Add or Edit  for the title
             {
                 ViewBag.Action = (movie.MovieId == 0) ? "Add" : "Edit";
+                ViewBag.Genres = context.Genres.OrderBy(g => g.Name).ToList();
                 return View(movie);
             }
         }
